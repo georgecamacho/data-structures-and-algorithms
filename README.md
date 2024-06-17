@@ -7,6 +7,6 @@ Components:
 - Admin Service (MVP): The restaurant employee will be the end user, who will be able to see upcoming bookings. The booking will be assigned to an employee, who will look after the guests during their visit. After the guest’s meal has finished, the employee will be able to mark the booking as complete.
 - Review/Edit Booking Service: The guest will be the end user, who will be able to view the booking that they have made and make any changes to their booking.
 
-To run the application, enter the following command:
-g++ -o booking_system main.cpp Booking.cpp 
+## To run the application, enter the following command:
+- g++ -o booking_system main.cpp BookingHashTable.cpp Booking.cpp 
 ./booking_system

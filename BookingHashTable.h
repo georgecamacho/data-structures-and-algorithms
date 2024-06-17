@@ -1,6 +1,7 @@
 #ifndef BOOKING_HASHTABLE_H
 #define BOOKING_HASHTABLE_H
 
+#include <iostream>
 #include <unordered_map>
 #include <list>
 #include <string>
@@ -20,12 +21,21 @@ public:
     // Search for bookings method
     std::list<Booking> searchBooking(const std::string& guestName) const;
 
+    // Delete a booking using the ID method
+    bool deleteBooking(int bookingID);
+
 private:
     std::unordered_map<int, Booking> bookingTable; // Hash table that will store the bookings
     int nextBookingID; // Variable to generate unique booking IDs
 
     // Generate unique booking ID method
     int generateBookingID();
+
+    // Merge function for merge sort
+    std::list<Booking> merge(std::list<Booking>& left, std::list<Booking>& right);
+
+    // Merge sort function
+    std::list<Booking> mergeSort(std::list<Booking>& bookings);
 };
 
 #endif // BOOKING_HASHTABLE_H

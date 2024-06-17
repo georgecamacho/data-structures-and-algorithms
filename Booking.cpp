@@ -2,13 +2,18 @@
 #include <iostream>
 
 // Initialize static member
-int Booking::nextBookingID = 1;
+int Booking::nextBookingID = 0;
+
+Booking::Booking() 
+    : uniqueBookingID(-1), guestName(""), phoneNumber(""), timeOfBooking(0), employeeAssignee("") {
+
+}
 
 // Constructor
-Booking::Booking(const std::string& guestName, const std::string& phone, std::time_t bookingTime,
-                 const std::list<std::string>& allergyList, const std::string& employee)
-    : uniqueBookingID(generateBookingID()), guestName(guestName), phoneNumber(phone), timeOfBooking(bookingTime),
-      allergies(allergyList), employeeAssignee(employee) {}
+Booking::Booking(const std::string& guestName, const std::string& phoneNumber, std::time_t timeOfBooking,
+                 const std::list<std::string>& allergyList, const std::string& employeeAssignee)
+    : uniqueBookingID(generateBookingID()), guestName(guestName), phoneNumber(phoneNumber), timeOfBooking(timeOfBooking),
+      allergies(allergyList), employeeAssignee(employeeAssignee) {}
 
 // Generate unique booking ID method
 int Booking::generateBookingID() {
@@ -24,11 +29,20 @@ const std::list<std::string>& Booking::getAllergies() const { return allergies; 
 const std::string& Booking::getEmployeeAssignee() const { return employeeAssignee; }
 
 // Setters
-void Booking::setName(const std::string& guestName) { guestName = guestName; }
-void Booking::setPhoneNumber(const std::string& phone) { phoneNumber = phone; }
-void Booking::setTimeOfBooking(std::time_t bookingTime) { timeOfBooking = bookingTime; }
-void Booking::setAllergies(const std::list<std::string>& allergyList) { allergies = allergyList; }
-void Booking::setEmployeeAssignee(const std::string& employee) { employeeAssignee = employee; }
+void Booking::setGuestName(const std::string& guestName) { this->guestName = guestName; }
+void Booking::setPhoneNumber(const std::string& phoneNumber) { this->phoneNumber = phoneNumber; }
+void Booking::setTimeOfBooking(std::time_t timeOfBooking) { this->timeOfBooking = timeOfBooking; }
+void Booking::setAllergies(const std::list<std::string>& allergyList) { this->allergies = allergyList; }
+void Booking::setEmployeeAssignee(const std::string& employeeAssignee) { this->employeeAssignee = employeeAssignee; }
+
+// Sorting of bookings based on time of booking methods
+bool Booking::operator<=(const Booking& other) const {
+    return timeOfBooking <= other.timeOfBooking;
+}
+
+bool Booking::operator>(const Booking& other) const {
+    return timeOfBooking > other.timeOfBooking;
+}
 
 // Display the booking details method
 void Booking::printBookingDetails() const {

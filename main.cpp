@@ -7,71 +7,104 @@
 
 using namespace std;
 
-int main() {
-    BookingHashTable bookingTable;
-    bool createBooking = true;
-
+void printMenu() {
     std::cout << "\n============================================================================\n";
     std::cout << "\n                        Restaurant Booking System                           \n";
-    std::cout << "\n    Press Enter to start to add the guest's information for the bookings    \n";
+    std::cout << "1. Create a new booking\n";
+    std::cout << "2. Edit an existing booking\n";
+    std::cout << "3. View all bookings\n";
+    std::cout << "4. Delete a booking\n";
+    std::cout << "5. Exit\n";
     std::cout << "\n============================================================================\n";
-    
-    std::cin.get();
+    std::cout << "Enter your choice: ";
+}
 
-    while (createBooking) {
-        std::string guestName;
-        std::string phoneNumber;
-        std::time_t timeOfBooking;
-        std::list<std::string> allergies;
-        std::string employeeAssignee;
+void createBooking(BookingHashTable& bookingTable) {
+    std::string name;
+    std::string phoneNumber;
+    std::time_t timeOfBooking;
+    std::list<std::string> allergies;
+    std::string employeeAssignee;
 
-        // Prompt user for input
-        std::cin.ignore(); // Ignores new line character left by std::cin
+    std::cout << "Enter Guest Name: ";
+    std::getline(std::cin, name);
 
-        std::cout << "Enter Guest Name: ";
-        std::getline(std::cin, guestName);
+    std::cout << "Enter Phone Number: ";
+    std::getline(std::cin, phoneNumber);
 
-        std::cout << "Enter Phone Number: ";
-        std::getline(std::cin, phoneNumber);
+    std::cout << "Enter Time of Booking (in format YYYY-MM-DD HH:MM:SS): ";
+    std::string timeString;
+    std::getline(std::cin, timeString);
+    struct tm tm;
+    strptime(timeString.c_str(), "%Y-%m-%d %H:%M:%S", &tm);
+    timeOfBooking = mktime(&tm);
 
-        std::cout << "Enter Time of Booking (in format YYYY-MM-DD HH:MM:SS): ";
-        std::string timeString;
-        std::getline(std::cin, timeString);
-        struct tm tm;
-        strptime(timeString.c_str(), "%Y-%m-%d %H:%M:%S", &tm);
-        timeOfBooking = mktime(&tm);
-
-        std::cout << "Enter Allergies (separated by commas): ";
-        std::string allergiesString;
-        std::getline(std::cin, allergiesString);
-        size_t start = 0;
-        size_t end = allergiesString.find(',');
-        while (end != std::string::npos) {
-            allergies.push_back(allergiesString.substr(start, end - start));
-            start = end + 1;
-            end = allergiesString.find(',', start);
-        }
-        allergies.push_back(allergiesString.substr(start));
-
-        std::cout << "Enter Employee Assignee: ";
-        std::getline(std::cin, employeeAssignee);
-
-        // Add booking to Hash Table
-        bookingTable.addBooking(guestName, phoneNumber, timeOfBooking, allergies, employeeAssignee);
-
-        // Prompt for another booking or exit
-        char choice;
-        std::cout << "Do you want to create another booking? (y/n): ";
-        std::cin >> choice;
-
-        // Covers both scenarios in case user enters captialised or lowercase Y
-        if (choice != 'y' && choice != 'Y') {
-            createBooking = false;
-        }
-
-        std::cin.ignore(); // Ignores new line character for next output
+    std::cout << "Enter Allergies (separated by commas): ";
+    std::string allergiesString;
+    std::getline(std::cin, allergiesString);
+    size_t start = 0;
+    size_t end = allergiesString.find(',');
+    while (end != std::string::npos) {
+        allergies.push_back(allergiesString.substr(start, end - start));
+        start = end + 1;
+        end = allergiesString.find(',', start);
     }
+    allergies.push_back(allergiesString.substr(start));
+
+    std::cout << "Enter Employee Assignee: ";
+    std::getline(std::cin, employeeAssignee);
+
+    bookingTable.addBooking(name, phoneNumber, timeOfBooking, allergies, employeeAssignee);
+}
+
+void viewAllBookings(const BookingHashTable& bookingTable) {
     bookingTable.printAllBookings();
+}
+
+void deleteBooking(BookingHashTable& bookingTable) {
+    int bookingID;
+    std::cout << "Enter Booking ID to delete: ";
+    std::cin >> bookingID;
+
+    if (bookingTable.deleteBooking(bookingID)) {
+        std::cout << "Booking deleted successfully.\n";
+    } else {
+        std::cout << "Booking ID not found.\n";
+    }
+}
+
+int main() {
+    BookingHashTable bookingTable;
+    bool exitApp = false;
+
+    while (!exitApp) {
+        printMenu();
+
+        int choice;
+        std::cin >> choice;
+        std::cin.ignore(); // Consume newline character
+
+        switch (choice) {
+            case 1:
+                createBooking(bookingTable);
+                break;
+            case 2:
+                std::cout << "Feature not implemented yet.\n";
+                break;
+            case 3:
+                viewAllBookings(bookingTable);
+                break;
+            case 4:
+                deleteBooking(bookingTable);
+                break;
+            case 5:
+                exitApp = true;
+                break;
+            default:
+                std::cout << "Invalid choice. Please enter a number from 1 to 5.\n";
+                break;
+        }
+    }
 
     std::cout << "Exiting the application.\n";
     return 0;
