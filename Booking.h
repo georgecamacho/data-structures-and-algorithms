@@ -13,7 +13,7 @@ public:
 
     // Getters
     int getUniqueBookingID() const;
-    const std::string& getName() const;
+    const std::string& getGuestName() const;
     const std::string& getPhoneNumber() const;
     std::time_t getTimeOfBooking() const;
     const std::list<std::string>& getAllergies() const;
@@ -32,7 +32,7 @@ public:
 private:
     static int nextBookingID;
     int uniqueBookingID;
-    std::string name;
+    std::string guestName;
     std::string phoneNumber;
     std::time_t timeOfBooking;
     std::list<std::string> allergies;

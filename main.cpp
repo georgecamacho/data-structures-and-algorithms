@@ -3,12 +3,23 @@
 #include <string>
 #include <ctime>
 #include "Booking.h"
+#include "BookingHashTable.h"
+
+using namespace std;
 
 int main() {
+    BookingHashTable bookingTable;
     bool createBooking = true;
 
+    std::cout << "\n============================================================================\n";
+    std::cout << "\n                        Restaurant Booking System                           \n";
+    std::cout << "\n    Press Enter to start to add the guest's information for the bookings    \n";
+    std::cout << "\n============================================================================\n";
+    
+    std::cin.get();
+
     while (createBooking) {
-        std::string name;
+        std::string guestName;
         std::string phoneNumber;
         std::time_t timeOfBooking;
         std::list<std::string> allergies;
@@ -18,7 +29,7 @@ int main() {
         std::cin.ignore(); // Ignores new line character left by std::cin
 
         std::cout << "Enter Guest Name: ";
-        std::getline(std::cin, name);
+        std::getline(std::cin, guestName);
 
         std::cout << "Enter Phone Number: ";
         std::getline(std::cin, phoneNumber);
@@ -45,24 +56,22 @@ int main() {
         std::cout << "Enter Employee Assignee: ";
         std::getline(std::cin, employeeAssignee);
 
-        // Create booking object
-        Booking booking(name, phoneNumber, timeOfBooking, allergies, employeeAssignee);
-
-        // Print booking details
-        std::cout << "\nBooking Details:\n";
-        booking.printBookingDetails();
+        // Add booking to Hash Table
+        bookingTable.addBooking(guestName, phoneNumber, timeOfBooking, allergies, employeeAssignee);
 
         // Prompt for another booking or exit
         char choice;
         std::cout << "Do you want to create another booking? (y/n): ";
         std::cin >> choice;
 
+        // Covers both scenarios in case user enters captialised or lowercase Y
         if (choice != 'y' && choice != 'Y') {
             createBooking = false;
         }
 
         std::cin.ignore(); // Ignores new line character for next output
     }
+    bookingTable.printAllBookings();
 
     std::cout << "Exiting the application.\n";
     return 0;
