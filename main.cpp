@@ -73,6 +73,50 @@ void deleteBooking(BookingHashTable& bookingTable) {
     }
 }
 
+void editBooking(BookingHashTable& bookingSystem) {
+    int bookingIDToEdit;
+    std::cout << "Enter the Booking ID to edit: ";
+    std::cin >> bookingIDToEdit;
+    std::cin.ignore();
+
+    // Check if the booking ID exists in the hash table
+    if (bookingSystem.bookingExists(bookingIDToEdit)) {
+        // Gather new details for the booking
+        std::string newGuestName;
+        std::string newPhoneNumber;
+        std::time_t newTimeOfBooking = std::time(nullptr); // Example: Current time
+        std::list<std::string> newAllergies;
+        std::string newEmployeeAssignee;
+
+        // Example: Prompt user for new details
+        std::cout << "Enter new guest name: ";
+        std::getline(std::cin, newGuestName);
+
+        std::cout << "Enter new phone number: ";
+        std::getline(std::cin, newPhoneNumber);
+
+        std::cout << "Enter new employee assignee: ";
+        std::getline(std::cin, newEmployeeAssignee);
+
+        // Example: Prompt user for allergies (loop until user finishes entering)
+        std::cout << "Enter new allergies (one per line, enter 'done' to finish):\n";
+        std::string allergy;
+        while (true) {
+            std::getline(std::cin, allergy);
+            if (allergy == "done")
+                break;
+            newAllergies.push_back(allergy);
+        }
+
+        // Call the editBooking method in BookingHashTable
+        bookingSystem.editBooking(bookingIDToEdit, newGuestName, newPhoneNumber, newTimeOfBooking, newAllergies, newEmployeeAssignee);
+
+        std::cout << "Booking with ID " << bookingIDToEdit << " has been updated.\n";
+    } else {
+        std::cout << "Booking with ID " << bookingIDToEdit << " does not exist.\n";
+    }
+}
+
 int main() {
     BookingHashTable bookingTable;
     bool exitApp = false;
@@ -89,7 +133,7 @@ int main() {
                 createBooking(bookingTable);
                 break;
             case 2:
-                std::cout << "Feature not implemented yet.\n";
+                editBooking(bookingTable);
                 break;
             case 3:
                 viewAllBookings(bookingTable);

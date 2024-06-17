@@ -47,6 +47,32 @@ std::list<Booking> BookingHashTable::searchBooking(const std::string& guestName)
     return results;
 }
 
+bool BookingHashTable::bookingExists(int bookingID) const {
+    return bookingTable.find(bookingID) != bookingTable.end();
+}
+
+void BookingHashTable::editBooking(int bookingID, const std::string& guestName, const std::string& phoneNumber,
+                                   std::time_t timeOfBooking, const std::list<std::string>& allergies,
+                                   const std::string& employeeAssignee) {
+    auto it = bookingTable.find(bookingID);
+    if (it != bookingTable.end()) {
+        // Update the booking with new information
+        it->second.setGuestName(guestName);
+        it->second.setPhoneNumber(phoneNumber);
+        it->second.setTimeOfBooking(timeOfBooking);
+        it->second.setAllergies(allergies);
+        it->second.setEmployeeAssignee(employeeAssignee);
+
+        // Successful message displayed for edited booking
+        std::cout << "\nBooking with ID " << bookingID << " updated successfully.\n";
+        // Show updated booking details
+        it->second.printBookingDetails();
+    } else {
+        std::cout << "Booking with ID " << bookingID << " not found.\n";
+        // Handle error or inform user accordingly
+    }
+}
+
 bool BookingHashTable::deleteBooking(int bookingID) {
     auto it = bookingTable.find(bookingID); 
     if (it != bookingTable.end()) {

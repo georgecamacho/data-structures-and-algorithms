@@ -15,8 +15,16 @@ public:
     void addBooking(const std::string& guestName, const std::string& phoneNumber, std::time_t timeOfBooking,
                     const std::list<std::string>& allergies, const std::string& employeeAssignee);
 
+    // Edit an existing booking in the hash table
+    void editBooking(int bookingID, const std::string& guestName, const std::string& phoneNumber, std::time_t timeOfBooking,
+                     const std::list<std::string>& allergies, const std::string& employeeAssignee);
+
+
     // Display the booking details method
     void printAllBookings() const;
+
+    // Check if booking exists method
+    bool bookingExists(int bookingID) const;
 
     // Search for bookings method
     std::list<Booking> searchBooking(const std::string& guestName) const;
