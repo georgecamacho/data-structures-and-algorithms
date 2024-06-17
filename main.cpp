@@ -20,14 +20,14 @@ void printMenu() {
 }
 
 void createBooking(BookingHashTable& bookingTable) {
-    std::string name;
+    std::string guestName;
     std::string phoneNumber;
     std::time_t timeOfBooking;
     std::list<std::string> allergies;
     std::string employeeAssignee;
 
     std::cout << "Enter Guest Name: ";
-    std::getline(std::cin, name);
+    std::getline(std::cin, guestName);
 
     std::cout << "Enter Phone Number: ";
     std::getline(std::cin, phoneNumber);
@@ -54,7 +54,7 @@ void createBooking(BookingHashTable& bookingTable) {
     std::cout << "Enter Employee Assignee: ";
     std::getline(std::cin, employeeAssignee);
 
-    bookingTable.addBooking(name, phoneNumber, timeOfBooking, allergies, employeeAssignee);
+    bookingTable.addBooking(guestName, phoneNumber, timeOfBooking, allergies, employeeAssignee);
 }
 
 void viewAllBookings(const BookingHashTable& bookingTable) {
@@ -89,7 +89,7 @@ void editBooking(BookingHashTable& bookingSystem) {
         std::string newEmployeeAssignee;
 
         // Example: Prompt user for new details
-        std::cout << "Enter new guest name: ";
+        std::cout << "Enter new guest guestName: ";
         std::getline(std::cin, newGuestName);
 
         std::cout << "Enter new phone number: ";
